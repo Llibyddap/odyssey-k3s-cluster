@@ -1,0 +1,44 @@
+Hardware
+Odyssey
+
+
+Step 1
+Operating system
+
+use ubuntu 20.04 lts server
+flash with rufus
+
+Step 2
+The same USB drive will be used to install the Operating System on all three Odyssey computers.  Note that the only difference will be in setting the server name (k3s_master01, k3s_worker01, k3s_worker2).
+
+Boot with Ubuntu 20.04 LTS Server USB 3.0 drive..  To do this you'll need to have a keyboard installed, an ethernet connection (for network connection), a monitor to see what you're doing and the USB drive with the operating system.  The USB drive needs to be inserted into the blue USB port.  Once all devices are attached, power on the Odyssey and press the delete key to enter the boot setup menu.
+
+scroll to Save and Exit at the far right side using the right arrow key.  Select the UEFI OS (...USB 3.0...) boot option.  This will automatically reboot the Odyssey using the USB drive with the Ubuntu server image.
+
+Once the system reboots, it will begin the isntallation script which may need to be updated.  Generally, the process involves accepting all defualts unless noted below.
+
+Network Connections
+Accept the default connections, but take note of the IP address assigned to the Odyssey.
+
+Profile
+Here you should enter k3s_master01 as the server name.  To make things easy, you should select the same user and password when setting up the profile on each of the comptuers.  Note that this user is a sudo user and because we accepted the default configuration we are not using SSH authentication keys - these can be added later if desired.  Installing SSH keys from the installation script requires them to be downloaded from either GitHub or LaunchPad.
+
+SSH Setup
+Check the box to install openSSH server
+
+Upon completion of the installation process, you'll need to manually reboot the system at the bottom of the screen.
+
+Step 3
+
+** test ssh...
+using another networked computer you can SSH into each of the nodes to confirm they are up and running.
+
+ssh user@xxx.xxx.xxx.xxx
+
+Once loged in to the server you can complete the update process with:
+
+sudo apt update
+sudo apt upgrade
+
+Step 4
+Repeat Steps 3 and 4 on the other two Odyssey computers remembering to use the k3s_worker01 and k3s_worker02 server names.
