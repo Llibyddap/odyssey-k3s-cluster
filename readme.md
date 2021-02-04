@@ -1,16 +1,20 @@
-Hardware
+**Hardware**
 
-Cluster Computers
+*Cluster Computers*
 
 Odyssey X86 Blue J4105
+
 Brand:  Seeed Studio
+
 CPU:    Celeron J4105
+
 RAM:    8 GB
+
 SSD:    128 GB
 
 This project will use three Odyssey computers to build a cluster with a single master node and two worker nodes.
 
-Manager Computer (docker image)
+*Manager Computer (docker image)*
 
 `dorowu/ubuntu-desktop-lxde-vnc:focal-lxqt`
 
@@ -18,7 +22,7 @@ All cluster management will be accomplished outside the cluster using the Manage
 
 **Step 1**
 
-Operating system
+*Operating system*
 
 Download the Ubuntu operating system iso file.  This example uses version 20.04 LTS Server.  We'll flash the iso image onto a USB flash drive using Rufus (flashing was done on a Windows 10 operating system).
 
@@ -35,10 +39,12 @@ Once the system reboots, it will begin the isntallation script which may need to
 Network Connections
 Accept the default connections, but take note of the IP address assigned to the Odyssey.
 
-Profile
+*Profile*
+
 Here you should enter `k3s_master01` as the server name.  To make things easy, you should select the same user and password when setting up the profile on each of the comptuers (e.g., `USER`).  Note that this user is a sudo user and because we accepted the default configuration we are not using SSH authentication keys - these will be added manually later.  Installing SSH keys from the installation script requires them to be downloaded from either GitHub or LaunchPad.
 
-SSH Setup
+*SSH Setup*
+
 Check the box to install openSSH server
 
 Upon completion of the installation process, you'll need to manually reboot the system at the bottom of the screen.
