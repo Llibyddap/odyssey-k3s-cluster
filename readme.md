@@ -1,4 +1,7 @@
 Hardware
+
+Cluster Computers
+
 Odyssey X86 Blue J4105
 Brand:  Seeed Studio
 CPU:    Celeron J4105
@@ -7,16 +10,21 @@ SSD:    128 GB
 
 This project will use three Odyssey computers to build a cluster with a single master node and two worker nodes.
 
+Manager Computer (docker image)
+
+`dorowu/ubuntu-desktop-lxde-vnc:focal-lxqt`
+
+All cluster management will be accomplished outside the cluster using the Manager.  This can also be done on Windows 10 but it is substantially more time consuming given the added complexity of the Windwos 10 environment constraints.
+
 **Step 1**
 
 Operating system
 
-use ubuntu 20.04 lts server
-flash with rufus
+Download the Ubuntu operating system iso file.  This example uses version 20.04 LTS Server.  We'll flash the iso image onto a USB flash drive using Rufus (flashing was done on a Windows 10 operating system).
 
 **Step 2**
 
-The same USB drive will be used to install the Operating System on all three Odyssey computers.  Note that the only difference will be in setting the server name (`k3s_master01`, `k3s_worker01`, `k3s_worker2`).
+The same USB drive will be used to install the Operating System on all three Odyssey computers.  Note that the only difference will be in setting the server name (`k3s_master01`, `k3s_node01`, `k3s_node2`).
 
 Boot with Ubuntu 20.04 LTS Server USB 3.0 drive..  To do this you'll need to have a keyboard installed, an ethernet connection (for network connection), a monitor to see what you're doing and the USB drive with the operating system.  The USB drive needs to be inserted into the blue USB port.  Once all devices are attached, power on the Odyssey and press the delete key to enter the boot setup menu.
 
@@ -47,8 +55,8 @@ Once loged in to the server you can complete the update process with:
 ```
 sudo apt update
 sudo apt upgrade -y
-mkdir .ssh  <-- This will later be used in pushing the RSA public keys to each node.
-sudo visudo  <-- This will allow you to edit the sudoers file.  
+mkdir .ssh              <-- This will later be used in pushing the RSA public keys to each node.
+sudo visudo             <-- This will allow you to edit the sudoers file.  
 ```
 
 Inside the visudo file, scroll to the bottom and add the following line.
@@ -57,7 +65,7 @@ Inside the visudo file, scroll to the bottom and add the following line.
 
 **Step 4**
 
-Repeat Steps 3 and 4 on the other two Odyssey computers remembering to use the k3s_worker01 and k3s_worker02 server names.
+Repeat Steps 3 and 4 on the other two Odyssey computers remembering to use the k3s_node01 and k3s_node02 server names.
 
 **Step 5**
 
