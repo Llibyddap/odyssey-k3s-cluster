@@ -75,7 +75,7 @@ Repeat Steps 3 and 4 on the other two Odyssey computers remembering to use the k
 
 from the root directory...  
 
-apt-get install openssh-client git ansible nano -y (add to dependencies)
+apt-get install openssh-client git ansible nano kubectl -y (add to dependencies)
 
 ssh-keygen (accept defaults including no passphrase)
 
@@ -123,3 +123,17 @@ extra_agent_args: ""
 ```
 
 `Control-x`, `y` to exit and save your work.
+
+**Step 7**
+
+At this point we're ready to deploy the cluster.  The ansible playbook we'll be running is actually designed for the raspberry pi but the elements that relate to the raspberry pi will fail in such a way as to leave a fully functioning deployment.  The playbook has a set of tasks run by the rasbperry pi role located in the site.yml file.  
+
+First we'll setup the master and nodes with:
+
+`ansible-playbook site.yml -i inventory/odyssey/hosts.ini`
+
+
+
+If (When) it breaks, ansible has a rest function.  At any time you can run:
+
+`ansible-playbook reset.yml -i inventory/odyssey/hosts.ini`
