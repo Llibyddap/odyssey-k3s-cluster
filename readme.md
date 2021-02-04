@@ -75,11 +75,16 @@ Repeat Steps 3 and 4 on the other two Odyssey computers remembering to use the k
 
 from the root directory...  
 
-apt-get install openssh-client git ansible nano kubectl -y (add to dependencies)
+```
+apt-get update && apt-get install -y apt-transport-https gnupg2 curl openssh-client git ansible nano
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list
+apt-get update && apt-get install -y kubectl
+```
 
-ssh-keygen (accept defaults including no passphrase)
+`ssh-keygen` (accept defaults including no passphrase)
 
-ssh-copy-id USER@xxx.xxx.xxx.xxx (copy keys over to k3s_master01, k3s_node01 and k3s_node02)
+`ssh-copy-id USER@xxx.xxx.xxx.xxx` (copy keys over to k3s_master01, k3s_node01 and k3s_node02)
 
 This allows you to ssh into the node without using a password and will be important in automating the cluster deployment with ansible.
 
@@ -137,3 +142,18 @@ First we'll setup the master and nodes with:
 If (When) it breaks, ansible has a rest function.  At any time you can run:
 
 `ansible-playbook reset.yml -i inventory/odyssey/hosts.ini`
+
+**Step 8**
+
+Connect Manager Computer to K3S Cluster.
+
+```
+cd ~
+mddir .kube
+scp USER@XXX.XXX.XXX.XXX:~/.kube/config ~/.kube/config-odyssey
+export KUBECONFIG=~/.kube/config-odyssey
+```
+
+Now you can test the connect from outside the cluster with:
+
+`kubectl get nodes`
