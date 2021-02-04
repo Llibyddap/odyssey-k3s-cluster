@@ -3,7 +3,6 @@
 *Cluster Computers*
 
 Odyssey X86 Blue J4105
-
 Brand:  Seeed Studio
 
 CPU:    Celeron J4105
@@ -26,7 +25,7 @@ All cluster management will be accomplished outside the cluster using the Manage
 
 Download the Ubuntu operating system iso file.  This example uses version 20.04 LTS Server.  We'll flash the iso image onto a USB flash drive using Rufus (flashing was done on a Windows 10 operating system).
 
-**Step 2**
+**Step 2** (Cluster Computers)
 
 The same USB drive will be used to install the Operating System on all three Odyssey computers.  Note that the only difference will be in setting the server name (`k3s_master01`, `k3s_node01`, `k3s_node2`).
 
@@ -49,7 +48,7 @@ Check the box to install openSSH server
 
 Upon completion of the installation process, you'll need to manually reboot the system at the bottom of the screen.
 
-**Step 3**
+**Step 3** (from Manager Computer)
 
 ** test ssh...
 using another networked computer you can SSH into each of the nodes to confirm they are up and running.
@@ -61,7 +60,6 @@ Once loged in to the server you can complete the update process with:
 ```
 sudo apt update
 sudo apt upgrade -y
-mkdir .ssh              <-- This will later be used in pushing the RSA public keys to each node.
 sudo visudo             <-- This will allow you to edit the sudoers file.  
 ```
 
@@ -73,15 +71,19 @@ Inside the visudo file, scroll to the bottom and add the following line.
 
 Repeat Steps 3 and 4 on the other two Odyssey computers remembering to use the k3s_node01 and k3s_node02 server names.
 
-**Step 5**
+**Step 5** (from Manager Computer)
 
-This step assumes that you already have a public/private rsa keys setup on your computer.  If not, you'll need to use keygen to generate the keys.  We're using a Windows 10 OS in this example.  Launch a PowerShell and execute:
+from the root directory...  
 
-`type $env:USERPROFILE\.ssh\id_rsa.pub | ssh XXX.XXX.XXX.XXX "cat >> .ssh/authorized_keys"`  # where XXX.XXX.XXX.XXX represents the IP address noted in step 2 under Network Connections (you'll execute this command 3 times, once for each node.  This allows you to ssh into the node without using a password and will be important in automating the cluster deployment.
+apt-get install openssh-client git ansible nano -y (add to dependencies)
 
-**Step 6**
+ssh-keygen (accept defaults including no passphrase)
 
-We'll use ansible for the cluster deployment and provisioning process.  Note, ansible has to run on a linux OS.  Although we've been using a Windows machine for the vast majority of the setup, this step requires a linux system.  I've used a docker image on my windows mahcine running Ubuntu 20.04.  The Ubuntu VM needs to have ansible, nano and git installed (apt install ansible nano git -y).  
+ssh-copy-id USER@xxx.xxx.xxx.xxx (copy keys over to k3s_master01, k3s_node01 and k3s_node02)
+
+This allows you to ssh into the node without using a password and will be important in automating the cluster deployment with ansible.
+
+**Step 6** (from Manager Computer) 
 
 Install the k3s-ansible play book.
 
